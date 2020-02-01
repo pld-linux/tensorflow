@@ -1,0 +1,87 @@
+--- tensorflow-2.0.0/configure.py.orig	2019-12-14 21:12:55.692079992 +0100
++++ tensorflow-2.0.0/configure.py	2019-12-14 21:13:04.498698949 +0100
+@@ -50,7 +50,7 @@
+ _TF_BAZELRC = ''
+ _TF_CURRENT_BAZEL_VERSION = None
+ _TF_MIN_BAZEL_VERSION = '0.24.1'
+-_TF_MAX_BAZEL_VERSION = '0.26.1'
++_TF_MAX_BAZEL_VERSION = '2.0.0'
+ 
+ NCCL_LIB_PATHS = [
+     'lib64/', 'lib/powerpc64le-linux-gnu/', 'lib/x86_64-linux-gnu/', ''
+--- tensorflow-2.0.0/third_party/jpeg/BUILD.bazel.orig	2019-09-27 23:56:33.000000000 +0200
++++ tensorflow-2.0.0/third_party/jpeg/BUILD.bazel	2019-12-23 20:30:08.993364429 +0100
+@@ -7,8 +7,6 @@
+ 
+ load("@org_tensorflow//third_party:common.bzl", "template_rule")
+ 
+-libjpegturbo_nocopts = "-[W]error"
+-
+ WIN_COPTS = [
+     "/Ox",
+     "-DWITH_SIMD",
+@@ -120,7 +118,6 @@
+         "jstdhuff.c",  # should have been named .inc
+     ],
+     copts = libjpegturbo_copts,
+-    nocopts = libjpegturbo_nocopts,
+     visibility = ["//visibility:public"],
+     deps = select({
+         ":k8": [":simd_x86_64"],
+@@ -168,7 +165,6 @@
+         "simd/powerpc/jsimd_altivec.h",
+     ],
+     copts = libjpegturbo_copts,
+-    nocopts = libjpegturbo_nocopts,
+ )
+ 
+ cc_library(
+@@ -217,7 +213,6 @@
+     ],
+     copts = libjpegturbo_copts,
+     linkstatic = 1,
+-    nocopts = libjpegturbo_nocopts,
+ )
+ 
+ genrule(
+@@ -327,7 +322,6 @@
+         "simd/jsimd.h",
+     ],
+     copts = libjpegturbo_copts,
+-    nocopts = libjpegturbo_nocopts,
+ )
+ 
+ cc_library(
+@@ -348,7 +342,6 @@
+         "simd/jsimd.h",
+     ],
+     copts = libjpegturbo_copts,
+-    nocopts = libjpegturbo_nocopts,
+ )
+ 
+ cc_library(
+@@ -501,7 +494,6 @@
+         "jsimddct.h",
+     ],
+     copts = libjpegturbo_copts,
+-    nocopts = libjpegturbo_nocopts,
+ )
+ 
+ template_rule(
+--- third_party/mkl_dnn/mkldnn.BUILD.orig	2019-09-27 23:56:33.000000000 +0200
++++ third_party/mkl_dnn/mkldnn.BUILD	2019-12-24 08:25:22.367549411 +0100
+@@ -91,7 +91,6 @@
+         "src/cpu/gemm",
+         "src/cpu/xbyak",
+     ],
+-    nocopts = "-fno-exceptions",
+     visibility = ["//visibility:public"],
+     deps = select({
+         "@org_tensorflow//tensorflow:linux_x86_64": [
+@@ -134,6 +133,5 @@
+         "src/cpu/gemm",
+         "src/cpu/xbyak",
+     ],
+-    nocopts = "-fno-exceptions",
+     visibility = ["//visibility:public"],
+ )
